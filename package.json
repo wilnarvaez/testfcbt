@@ -1,0 +1,22 @@
+{
+  "name": "testfcbt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wilnarvaez/testfcbt.git"
+  },
+  "author": "wilmer narvaez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wilnarvaez/testfcbt/issues"
+  },
+  "homepage": "https://github.com/wilnarvaez/testfcbt#readme",
+  "dependencies": {
+    "botkit": "^0.1.1"
+  }
+}
