@@ -53,9 +53,32 @@ controller.on('facebook_postback', function (bot, message) {
     case 'show_cat':
       bot.reply(message, {
         attachment: {
-          type: 'image',
+          type: template,
           payload: {
-            url: 'https://media.giphy.com/media/5xaOcLT4VhjRfudPcS4/giphy.gif'
+            template_type: generic,
+            elements: [{
+              title: First card,
+              subtitle: Element #1 of an hscroll,
+              image_url: 'http://messengerdemo.parseapp.com/img/rift.png',
+              buttons: [{
+                type: web_url,
+                url: 'https://www.messenger.com/',
+                title: Web url
+              }, {
+                type: postback,
+                title: Postback,
+                payload: Payload for first element in a generic bubble,
+              }],
+            },{
+              title: Second card,
+              subtitle: Element #2 of an hscroll,
+              image_url: 'http://messengerdemo.parseapp.com/img/gearvr.png',
+              buttons: [{
+                type: postback,
+                title: Postback,
+                payload: Payload for second element in a generic bubble,
+              }],
+            }]
           }
         }
       })
