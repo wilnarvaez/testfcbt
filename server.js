@@ -1,4 +1,5 @@
 var Botkit = require('botkit')
+var request = require('request')
 
 var accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN
 var verifyToken = process.env.FACEBOOK_VERIFY_TOKEN
@@ -41,6 +42,11 @@ controller.hears(['hello', 'hi'], 'message_received', function (bot, message) {
             type: 'postback',
             title: 'Dogs',
             payload: 'show_dog'
+          },
+          {
+            type: 'postback',
+            title: 'Lista Perros',
+            payload: 'lista_perros'
           }
         ]
       }
@@ -93,5 +99,37 @@ controller.on('facebook_postback', function (bot, message) {
         }
       })
       break
+    case 'lista_perros':
+      bot.reply(message, {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [{
+              request('http://cuidomimascota.com/botmsn', function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                  var jsonData = JSON.parse(body);
+                  for (var i = 0; i < jsonData.mascotas.length; i++) {
+                      var counter = jsonData.mascotas[i];
+                      console.log(counter);
+                      title: counter.mta_name,
+                      subtitle: 'Cuido Mi Mascota',
+                      image_url: 'http://www.cuidomimascota.com/pictures/'.counter.path,
+                      buttons: [{
+                        type: 'web_url',
+                        url: 'http://www.cuidomimascota.com/perfil/'.counter.id,
+                        title: counter.mta_name
+                      }, {
+                        type: 'postback',
+                        title: 'Postback',
+                        payload: 'Payload for first element in a generic bubble',
+                      }],
+                    }]
+                  }
+                }
+              })
+          }
+        }
+      })
   }
 })
