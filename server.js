@@ -24,9 +24,10 @@ controller.setupWebserver(port, function (err, webserver) {
 })
 
 controller.hears(['Hola', 'Buenos días', 'Buen día', 'Buenas tardes', 'Buena tarde', 'Buenas noches', 'Buena noche'], 'message_received', function (bot, message) {
-  bot.reply(message, '¡Hola!')
-  bot.reply(message, 'Te damos la bienvenida.')
+
   bot.reply(message, 'Desde este chat podrás conocer muchos peluditos que están en busca de un hogar amoroso y responsable.')
+  bot.reply(message, 'Te damos la bienvenida.')
+  bot.reply(message, '¡Hola!')
   bot.reply(message, {
     attachment: {
       type: 'template',
@@ -75,7 +76,7 @@ controller.on('facebook_postback', function (bot, message) {
                             buttons: [{
                               type: 'web_url',
                               url: 'http://www.cuidomimascota.com/perfil/'+counter.id,
-                              title: 'Ver el perfíl de: ' + counter.mta_name
+                              title: '¡Quiero conocerla/o!'
                             }],
                   }],
                 }
