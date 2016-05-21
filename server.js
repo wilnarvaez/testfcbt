@@ -100,31 +100,27 @@ controller.on('facebook_postback', function (bot, message) {
       })
       break
     case 'lista_perros':
-    request('http://cuidomimascota.com/botmsn', function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var jsonData = JSON.parse(body);
-        for (var i = 0; i < jsonData.mascotas.length; i++) {
-          var counter = jsonData.mascotas[i];
-          bot.reply(message, {
-            attachment: {
-              type: 'template',
-              payload: {
-                template_type: 'generic',
-                elements: [{
-                          title: counter.mta_name,
-                          subtitle: 'Cuido Mi Mascota',
-                          image_url: 'http://www.cuidomimascota.com/pictures/'+counter.path,
-                          buttons: [{
-                            type: 'web_url',
-                            url: 'http://www.cuidomimascota.com/perfil/'+counter.id,
-                            title: counter.mta_name
-                          }],
-                }],
-              }
-            }
-          })
+      request('http://cuidomimascota.com/botmsn', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var jsonData = JSON.parse(body);
+          for (var i = 0; i < jsonData.mascotas.length; i++) {
+            var counter = jsonData.mascotas[i];
+            var res = res + "{ title: counter.mta_name, subtitle: 'Cuido Mi Mascota', image_url: 'http://www.cuidomimascota.com/pictures/'+counter.path, buttons: [{type: 'web_url', url: 'http://www.cuidomimascota.com/perfil/'+counter.id, title: counter.mta_name}]},";
+          }
         }
-      }
-    })
+      })
+
+      bot.reply(message, {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: [{
+              res
+            }],
+          }
+        }
+      })
+
   }
 })
