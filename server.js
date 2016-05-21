@@ -123,7 +123,7 @@ controller.on('facebook_postback', function (bot, message) {
                         title: 'Postback',
                         payload: 'Payload for first element in a generic bubble',
                       }],
-                    }]
+                    },]
                   }
                 }
               })
