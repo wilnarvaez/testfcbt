@@ -100,8 +100,8 @@ controller.on('facebook_postback', function (bot, message) {
       })
       break
     case 'lista_perros':
-      var res;
-      var counter;
+      var res = "";
+      var counter = 0;
       request('http://cuidomimascota.com/botmsn', function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var jsonData = JSON.parse(body);
