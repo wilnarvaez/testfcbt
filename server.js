@@ -23,30 +23,31 @@ controller.setupWebserver(port, function (err, webserver) {
   })
 })
 
-controller.hears(['hello', 'hi'], 'message_received', function (bot, message) {
-  bot.reply(message, 'Hello!')
-  bot.reply(message, 'I want to show you something')
+controller.hears(['Hola', 'Buenos días', 'Buen día', 'Buenas tardes', 'Buena tarde', 'Buenas noches', 'Buena noche'], 'message_received', function (bot, message) {
+  bot.reply(message, '¡Hola!')
+  bot.reply(message, 'Te damos la bienvenida.')
+  bot.reply(message, 'Desde este chat podrás conocer muchos peluditos que están en busca de un hogar amoroso y responsable.')
   bot.reply(message, {
     attachment: {
       type: 'template',
       payload: {
         template_type: 'button',
-        text: 'Which do you prefer',
+        text: '¿Qué buscas?',
         buttons: [
           {
             type: 'postback',
-            title: 'Cats',
-            payload: 'show_cat'
+            title: 'Gatos',
+            payload: 'show_cats'
           },
           {
             type: 'postback',
-            title: 'Dogs',
-            payload: 'show_dog'
+            title: 'Perros',
+            payload: 'show_dogs'
           },
           {
             type: 'postback',
-            title: 'Lista Perros',
-            payload: 'lista_perros'
+            title: '¡Ambos!',
+            payload: 'lista_todos'
           }
         ]
       }
@@ -56,76 +57,89 @@ controller.hears(['hello', 'hi'], 'message_received', function (bot, message) {
 
 controller.on('facebook_postback', function (bot, message) {
   switch (message.payload) {
-    case 'show_cat':
-      bot.reply(message, {
-        attachment: {
-          type: 'template',
-          payload: {
-            template_type: 'generic',
-            elements: [{
-              title: 'First card',
-              subtitle: 'Element #1 of an hscroll',
-              image_url: 'http://messengerdemo.parseapp.com/img/rift.png',
-              buttons: [{
-                type: 'web_url',
-                url: 'https://www.messenger.com/',
-                title: 'Web url'
-              }, {
-                type: 'postback',
-                title: 'Postback',
-                payload: 'Payload for first element in a generic bubble',
-              }],
-            },{
-              title: 'Second card',
-              subtitle: 'Element #2 of an hscroll',
-              image_url: 'http://messengerdemo.parseapp.com/img/gearvr.png',
-              buttons: [{
-                type: 'postback',
-                title: 'Postback',
-                payload: 'Payload for second element in a generic bubble',
-              }],
-            }]
-          }
-        }
-      })
-      break
-    case 'show_dog':
-      bot.reply(message, {
-        attachment: {
-          type: 'image',
-          payload: {
-            url: 'https://media.giphy.com/media/3o7ZeL5FH6Ap9jR9Kg/giphy.gif'
-          }
-        }
-      })
-      break
-    case 'lista_perros':
-    request('http://cuidomimascota.com/botmsn', function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        var jsonData = JSON.parse(body);
-        for (var i = 0; i < jsonData.mascotas.length; i++) {
-          var counter = jsonData.mascotas[i];
-          bot.reply(message, {
-            attachment: {
-              type: 'template',
-              payload: {
-                template_type: 'generic',
-                elements: [{
-                          title: counter.mta_name,
-                          subtitle: 'Cuido Mi Mascota',
-                          image_url: 'http://www.cuidomimascota.com/pictures/'+counter.path,
-                          buttons: [{
-                            type: 'web_url',
-                            url: 'http://www.cuidomimascota.com/perfil/'+counter.id,
-                            title: counter.mta_name
-                          }],
-                }],
+    case 'show_cats':
+      request('http://cuidomimascota.com/botgato', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var jsonData = JSON.parse(body);
+          for (var i = 0; i < jsonData.mascotas.length; i++) {
+            var counter = jsonData.mascotas[i];
+            bot.reply(message, {
+              attachment: {
+                type: 'template',
+                payload: {
+                  template_type: 'generic',
+                  elements: [{
+                            title: counter.mta_name,
+                            subtitle: 'Cuido Mi Mascota',
+                            image_url: 'http://www.cuidomimascota.com/pictures/'+counter.path,
+                            buttons: [{
+                              type: 'web_url',
+                              url: 'http://www.cuidomimascota.com/perfil/'+counter.id,
+                              title: 'Ver el perfíl de: ' + counter.mta_name
+                            }],
+                  }],
+                }
               }
-            }
-          })
+            })
+          }
         }
-      }
-    })
-    
+      })
+      break
+    case 'show_dogs':
+      request('http://cuidomimascota.com/botperro', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var jsonData = JSON.parse(body);
+          for (var i = 0; i < jsonData.mascotas.length; i++) {
+            var counter = jsonData.mascotas[i];
+            bot.reply(message, {
+              attachment: {
+                type: 'template',
+                payload: {
+                  template_type: 'generic',
+                  elements: [{
+                            title: counter.mta_name,
+                            subtitle: 'Cuido Mi Mascota',
+                            image_url: 'http://www.cuidomimascota.com/pictures/'+counter.path,
+                            buttons: [{
+                              type: 'web_url',
+                              url: 'http://www.cuidomimascota.com/perfil/'+counter.id,
+                              title: 'Ver el perfíl de: ' + counter.mta_name
+                            }],
+                  }],
+                }
+              }
+            })
+          }
+        }
+      })
+      break
+    case 'lista_todos':
+      request('http://cuidomimascota.com/botmsn', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var jsonData = JSON.parse(body);
+          for (var i = 0; i < jsonData.mascotas.length; i++) {
+            var counter = jsonData.mascotas[i];
+            bot.reply(message, {
+              attachment: {
+                type: 'template',
+                payload: {
+                  template_type: 'generic',
+                  elements: [{
+                            title: counter.mta_name,
+                            subtitle: 'Cuido Mi Mascota',
+                            image_url: 'http://www.cuidomimascota.com/pictures/'+counter.path,
+                            buttons: [{
+                              type: 'web_url',
+                              url: 'http://www.cuidomimascota.com/perfil/'+counter.id,
+                              title: 'Ver el perfíl de: ' + counter.mta_name
+                            }],
+                  }],
+                }
+              }
+            })
+          }
+        }
+      })
+      break
   }
 })
