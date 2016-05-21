@@ -113,10 +113,10 @@ controller.on('facebook_postback', function (bot, message) {
             elements: [{
                       title: counter.mta_name,
                       subtitle: 'Cuido Mi Mascota',
-                      image_url: 'http://www.cuidomimascota.com/pictures/'.counter.path,
+                      image_url: 'http://www.cuidomimascota.com/pictures/'+counter.path,
                       buttons: [{
                         type: 'web_url',
-                        url: 'http://www.cuidomimascota.com/perfil/'.counter.id,
+                        url: 'http://www.cuidomimascota.com/perfil/'+counter.id,
                         title: counter.mta_name
                       }, {
                         type: 'postback',
