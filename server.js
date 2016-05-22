@@ -103,7 +103,7 @@ controller.on('facebook_postback', function (bot, message) {
                             buttons: [{
                               type: 'web_url',
                               url: 'http://www.cuidomimascota.com/perfil/'+counter.id,
-                              title: 'Ver el perfíl de: ' + counter.mta_name
+                              title: '¡Quiero conocerla/o!'
                             }],
                   }],
                 }
@@ -131,7 +131,7 @@ controller.on('facebook_postback', function (bot, message) {
                             buttons: [{
                               type: 'web_url',
                               url: 'http://www.cuidomimascota.com/perfil/'+counter.id,
-                              title: 'Ver el perfíl de: ' + counter.mta_name
+                              title: '¡Quiero conocerla/o!'
                             }],
                   }],
                 }
