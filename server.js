@@ -1,5 +1,6 @@
 var Botkit = require('botkit')
 var request = require('request')
+var require = require('./modulos/mensaje')
 
 var accessToken = process.env.FACEBOOK_PAGE_ACCESS_TOKEN
 var verifyToken = process.env.FACEBOOK_VERIFY_TOKEN
@@ -32,7 +33,7 @@ controller.hears(['Hola', 'Buenos días', 'Buen día', 'Buenas tardes', 'Buena t
       type: 'template',
       payload: {
         template_type: 'button',
-        text: '¿Qué buscas?',
+        text: '¿Qué buscas? (De un toque sobre la palabra)',
         buttons: [
           {
             type: 'postback',
@@ -58,88 +59,28 @@ controller.hears(['Hola', 'Buenos días', 'Buen día', 'Buenas tardes', 'Buena t
 controller.on('facebook_postback', function (bot, message) {
   switch (message.payload) {
     case 'show_cats':
-      request('http://cuidomimascota.com/botgato', function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-          var jsonData = JSON.parse(body);
-          for (var i = 0; i < jsonData.mascotas.length; i++) {
-            var counter = jsonData.mascotas[i];
-            bot.reply(message, {
-              attachment: {
-                type: 'template',
-                payload: {
-                  template_type: 'generic',
-                  elements: [{
-                            title: counter.mta_name,
-                            subtitle: 'Cuido Mi Mascota',
-                            image_url: 'http://www.cuidomimascota.com/pictures/'+counter.path,
-                            buttons: [{
-                              type: 'web_url',
-                              url: 'http://www.cuidomimascota.com/perfil/'+counter.id,
-                              title: '¡Quiero conocerla/o!'
-                            }],
-                  }],
-                }
-              }
-            })
-          }
-        }
-      })
+      mensaje('http://cuidomimascota.com/botgato')
       break
     case 'show_dogs':
-      request('http://cuidomimascota.com/botperro', function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-          var jsonData = JSON.parse(body);
-          for (var i = 0; i < jsonData.mascotas.length; i++) {
-            var counter = jsonData.mascotas[i];
-            bot.reply(message, {
-              attachment: {
-                type: 'template',
-                payload: {
-                  template_type: 'generic',
-                  elements: [{
-                            title: counter.mta_name,
-                            subtitle: 'Cuido Mi Mascota',
-                            image_url: 'http://www.cuidomimascota.com/pictures/'+counter.path,
-                            buttons: [{
-                              type: 'web_url',
-                              url: 'http://www.cuidomimascota.com/perfil/'+counter.id,
-                              title: '¡Quiero conocerla/o!'
-                            }],
-                  }],
-                }
-              }
-            })
-          }
-        }
-      }) 
+      mensaje('http://cuidomimascota.com/botperro')
       break
     case 'lista_todos':
-      request('http://cuidomimascota.com/botmsn', function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-          var jsonData = JSON.parse(body);
-          for (var i = 0; i < jsonData.mascotas.length; i++) {
-            var counter = jsonData.mascotas[i];
-            bot.reply(message, {
-              attachment: {
-                type: 'template',
-                payload: {
-                  template_type: 'generic',
-                  elements: [{
-                            title: counter.mta_name,
-                            subtitle: 'Cuido Mi Mascota',
-                            image_url: 'http://www.cuidomimascota.com/pictures/'+counter.path,
-                            buttons: [{
-                              type: 'web_url',
-                              url: 'http://www.cuidomimascota.com/perfil/'+counter.id,
-                              title: '¡Quiero conocerla/o!'
-                            }],
-                  }],
-                }
-              }
-            })
-          }
-        }
-      })
+      mensaje('http://cuidomimascota.com/botmsn')
       break
   }
+})
+
+//****************************************
+//             segunda parte             *
+//****************************************
+controller.hears(['@gato', '@gatos'], 'message_received', function (bot, message) {
+  mensaje('http://cuidomimascota.com/botgato')
+})
+
+controller.hears(['@perro', '@perros'], 'message_received', function (bot, message) {
+  mensaje('http://cuidomimascota.com/botperro')
+})
+
+controller.hears(['@todos'], 'message_received', function (bot, message) {
+  mensaje('http://cuidomimascota.com/botmsn')
 })
