@@ -69,18 +69,3 @@ controller.on('facebook_postback', function (bot, message) {
       break
   }
 })
-
-//****************************************
-//             segunda parte             *
-//****************************************
-controller.hears(['@gato', '@gatos'], 'message_received', function (bot, message) {
-  mensaje('http://cuidomimascota.com/botgato')
-})
-
-controller.hears(['@perro', '@perros'], 'message_received', function (bot, message) {
-  mensaje('http://cuidomimascota.com/botperro')
-})
-
-controller.hears(['@todos'], 'message_received', function (bot, message) {
-  mensaje('http://cuidomimascota.com/botmsn')
-})
