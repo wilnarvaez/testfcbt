@@ -69,3 +69,14 @@ controller.on('facebook_postback', function (bot, message) {
       break
   }
 })
+
+//****************************************
+//             segunda parte             *
+//****************************************
+controller.hears(['@gato', '@gatos'], 'message_received', function (bot, message) {
+  bot.reply(message, 'Mira estos:')
+})
+
+controller.on('facebook_postback', function (bot, message) {
+  mensaje('http://cuidomimascota.com/botgato')
+})
